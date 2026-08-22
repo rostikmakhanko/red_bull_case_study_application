@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18), 
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   letterSpacing: -1,
                 ),
               ),
-              
+
               const Text(
                 'Please sign in to continue',
                 style: TextStyle(
@@ -42,11 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 32),
 
-              EmailField(onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              }, showError: true),
+              EmailField(
+                onChanged: (value) {
+                  setState(() {
+                    password = value;
+                  });
+                },
+                showError: true,
+              ),
             ],
           ),
         ),
@@ -104,7 +107,9 @@ class EmailField extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: showError ? Colors.red.shade600 : Colors.grey.shade600,
+                        color: showError
+                            ? Colors.red.shade600
+                            : Colors.grey.shade600,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -126,7 +131,7 @@ class EmailField extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         letterSpacing: -1,
-                      )
+                      ),
                     ),
                   ],
                 ),
