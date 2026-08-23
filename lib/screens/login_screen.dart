@@ -11,8 +11,19 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
   String password = '';
 
+  bool get _isEmailValid {
+    print('email ' + email + ' is validating');
+    if (email.isEmpty) {
+      return false;
+    }
+    return RegExp(r'^[\w.-]+@([\w-]+\.)+[\w-]{2,}$').hasMatch(email);
+
+  }
+
   @override
   Widget build(BuildContext context) {
+    final showEmailError = !_isEmailValid;
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -45,10 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
               EmailField(
                 onChanged: (value) {
                   setState(() {
-                    password = value;
+                    email = value;
                   });
                 },
-                showError: true,
+                showError: showEmailError,
               ),
             ],
           ),
