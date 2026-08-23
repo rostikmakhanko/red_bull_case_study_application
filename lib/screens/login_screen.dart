@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'media_library_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,13 +18,12 @@ class _LoginScreenState extends State<LoginScreen> {
       return false;
     }
     return RegExp(r'^[\w.-]+@([\w-]+\.)+[\w-]{2,}$').hasMatch(email);
-
   }
 
   @override
   Widget build(BuildContext context) {
     final showEmailError = !_isEmailValid;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -60,6 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 },
                 showError: showEmailError,
+              ),
+
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerRight,
+                child: LoginButton(enabled: _isEmailValid),
               ),
             ],
           ),
@@ -170,6 +176,39 @@ class EmailField extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+class LoginButton extends StatelessWidget {
+  final bool enabled;
+
+  const LoginButton({super.key, required this.enabled});
+
+  void _openMediaLibraryScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const MediaLibraryScreen(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: enabled ? () {_openMediaLibraryScreen(context);} : null,
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'LOGIN',
+            style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0),
+          ),
+          SizedBox(width: 8),
+          Icon(Icons.arrow_forward, size: 18),
+        ],
+      ),
     );
   }
 }
