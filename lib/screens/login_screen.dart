@@ -13,6 +13,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
   String password = '';
 
+  bool _obscurePassword = true;
+
   bool get _isEmailValid {
     // print('email ' + email + ' is validating');
     if (email.isEmpty) {
@@ -85,6 +87,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 hasUppercase: _hasUppercase,
                 hasLowercase: _hasLowercase,
                 hasSpecialChar: _hasSpecialChar,
+                obscure: _obscurePassword,
+                toggelObscure: () {
+                  setState(() => _obscurePassword = !_obscurePassword);
+                },
               ),
 
               const SizedBox(height: 12),
@@ -211,6 +217,8 @@ class PasswordField extends StatelessWidget {
   final bool hasUppercase;
   final bool hasLowercase;
   final bool hasSpecialChar;
+  final bool obscure;
+  final VoidCallback toggelObscure;
 
   const PasswordField({
     super.key,
@@ -219,6 +227,8 @@ class PasswordField extends StatelessWidget {
     required this.hasUppercase,
     required this.hasLowercase,
     required this.hasSpecialChar,
+    required this.obscure,
+    required this.toggelObscure,
   });
 
   @override
@@ -276,9 +286,19 @@ class PasswordField extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         letterSpacing: -1,
                       ),
+                      obscureText: obscure,
                     ),
                   ],
                 ),
+              ),
+
+              // const SizedBox(width: 8),
+              IconButton(
+                icon: Icon(
+                  obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  color: Colors.grey.shade500,
+                ),
+                onPressed: toggelObscure,
               ),
             ],
           ),
