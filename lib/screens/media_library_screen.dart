@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/pixabay_media.dart';
+import '../services/pixabay_service.dart';
+
 import '../components/search_field.dart';
+import '../components/media_list_tile.dart';
 
 class MediaLibraryScreen extends StatefulWidget {
   const MediaLibraryScreen({super.key});
@@ -96,6 +100,21 @@ class FolderContentSheet extends StatefulWidget {
 }
 
 class _FolderContentSheetState extends State<FolderContentSheet> {
+  final _pixabayService = PixabayService();
+  late Future<List<PixabayMedia>> _mediaFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _mediaFuture = _pixabayService.searchFolder(widget.folderName);
+  }
+
+  @override
+  void dispose() {
+    _pixabayService.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: investigate why topBarHeight is 0
@@ -159,9 +178,48 @@ class _FolderContentSheetState extends State<FolderContentSheet> {
             child: SearchField(hintText: 'Search in folder'),
           ),
 
-          const Text('alley_night.mp4'),
-          const Text('alley_night_2.mp4'),
-          const Text('alley_night_3.mp4'),
+          Expanded(
+            child: FutureBuilder<List<PixabayMedia>>(
+              future: _mediaFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  print('Waiting for response');
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  print('Error ${snapshot.error}');
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}\nPlease contact rostik270900@gmail.com',
+                    ),
+                  );
+                }
+
+                final items = snapshot.data ?? [];
+                print('Response $items');
+                if (items.isEmpty) {
+                  return const Center(child: Text('No results found'));
+                }
+
+                return ListView.separated(
+                  itemCount: items.length,
+                  separatorBuilder: (_, __) =>
+                      Divider(height: 1, color: Colors.grey.shade200),
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    // return ListTile(
+                    //   title: Text(item.tags),
+                    //   subtitle: Text('${item.width} × ${item.height}'),
+                    //   trailing: item.kind == MediaKind.video
+                    //       ? const Icon(Icons.play_circle_outline)
+                    //       : const Icon(Icons.chevron_right),
+                    // );
+                    return MediaListTile(item: item);
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
