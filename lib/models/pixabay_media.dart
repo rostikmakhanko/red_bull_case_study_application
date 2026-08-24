@@ -87,9 +87,9 @@ class PixabayMedia {
 
   factory PixabayMedia.fromVideoJson(Map<String, dynamic> json) {
     final videos = json['videos'] as Map<String, dynamic>;
-    final medium = videos['medium'] as Map<String, dynamic>;
     final tags = json['tags'] ?? '';
-    final thumbnailUrl = json['thumbnail'] as String?;
+    final medium = videos['medium'] as Map<String, dynamic>;
+    final thumbnailUrl = medium['thumbnail'] as String?;
     final userImageUrl = json['userImageURL'] as String?;
     return PixabayMedia._(
       id: json['id'],
