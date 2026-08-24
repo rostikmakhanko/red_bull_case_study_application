@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/pixabay_media.dart';
 import '../utils/format_date.dart';
+import '../components/quality_badge.dart';
 
 class MediaListTile extends StatelessWidget {
   final PixabayMedia item;
@@ -55,7 +56,7 @@ class MediaListTile extends StatelessWidget {
                             SizedBox(width: 4),
                           ],
                         ),
-                      _QualityBadge(item: item),
+                      QualityBadge(item: item),
                     ],
                   ),
                 ],
@@ -117,53 +118,6 @@ class _Thumbnail extends StatelessWidget {
                   child: const Icon(Icons.broken_image, size: 20, color: Colors.grey),
                 ),
               ),
-      ),
-    );
-  }
-}
-
-class _QualityBadge extends StatelessWidget {
-  final PixabayMedia item;
-  const _QualityBadge({required this.item});
-
-  /// Pixabay doesn't return a quality label directly — derive one from
-  /// pixel height, same convention as the mock (4K / FHD / 2K).
-  String get _label {
-    final h = item.height;
-    if (h >= 2160) return '4K';
-    if (h >= 1440) return '2K';
-    if (h >= 1080) return 'FHD';
-    return 'HD';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            item.kind == MediaKind.video
-                ? Icons.videocam_outlined
-                : Icons.image_outlined,
-            size: 11,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 3),
-          Text(
-            _label,
-            style: const TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
-        ],
       ),
     );
   }
