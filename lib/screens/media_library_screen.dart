@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../components/search_field.dart';
 
 class MediaLibraryScreen extends StatefulWidget {
@@ -11,14 +12,12 @@ class MediaLibraryScreen extends StatefulWidget {
 class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
   List<String> folders = ['Clouds', 'Cars', 'Urban', 'Mountains', 'Ocean'];
 
-  void _showFolderContentBottomSheet(
-    BuildContext context,
-  ) {
+  void _showFolderContentBottomSheet(BuildContext context, String folderName) {
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      builder: (context) => const FolderContentSheet(),
+      builder: (context) => FolderContentSheet(folderName: folderName),
     );
   }
 
@@ -35,25 +34,24 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
             children: [
               Padding(
                 padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-                child: 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Media Library',
-                        style: TextStyle(
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -1,
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Media Library',
+                      style: TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -1,
                       ),
+                    ),
 
-                      const SizedBox(height: 12),
-                      SearchField(hintText: 'Seatch folders'),
-                      const SizedBox(height: 12),
-                    ],
-                  ),
+                    const SizedBox(height: 12),
+                    SearchField(hintText: 'Seatch folders'),
+                    const SizedBox(height: 12),
+                  ],
+                ),
               ),
 
               const Divider(height: 1),
@@ -61,17 +59,17 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
                 child: ListView.builder(
                   itemCount: folders.length,
                   itemBuilder: (context, index) {
-                    final folder = folders[index];
+                    final folderName = folders[index];
 
                     return Column(
                       children: [
                         ListTile(
                           leading: const Icon(Icons.folder, color: Colors.blue),
-                          title: Text(folder),
+                          title: Text(folderName),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
-                            print('Tapped $folder');
-                            _showFolderContentBottomSheet(context);
+                            print('Tapped $folderName');
+                            _showFolderContentBottomSheet(context, folderName);
                           },
                         ),
                         const Divider(height: 1),
@@ -89,7 +87,9 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
 }
 
 class FolderContentSheet extends StatefulWidget {
-  const FolderContentSheet({super.key});
+  final String folderName;
+
+  const FolderContentSheet({super.key, required this.folderName});
 
   @override
   State<FolderContentSheet> createState() => _FolderContentSheetState();
@@ -105,8 +105,60 @@ class _FolderContentSheetState extends State<FolderContentSheet> {
     return SizedBox(
       height: sheetHeight,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SearchField(hintText: 'Search in folder'),
+          Row(
+            children: [
+              SizedBox(
+                width: 120,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () => Navigator.of(context).maybePop(),
+                    icon: const Icon(Icons.chevron_left, color: Colors.blue),
+                    label: const Text(
+                      'Media\nLibrary',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 14,
+                        height: 1.2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                ),
+              ),
+
+              Expanded(
+                child: Text(
+                  widget.folderName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+
+              SizedBox(
+                width: 120,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.filter_alt, color: Colors.blue),
+                    onPressed: () {
+                      // TODO: implement folder content filtering
+                      print('Filtering is not implemented');
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 12),
+            child: SearchField(hintText: 'Search in folder'),
+          ),
+
           const Text('alley_night.mp4'),
           const Text('alley_night_2.mp4'),
           const Text('alley_night_3.mp4'),
