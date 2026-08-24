@@ -13,7 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
 
   bool get _isEmailValid {
-    print('email ' + email + ' is validating');
+    // print('email ' + email + ' is validating');
     if (email.isEmpty) {
       return false;
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/search_field.dart';
 
 class MediaLibraryScreen extends StatefulWidget {
   const MediaLibraryScreen({super.key});
@@ -9,6 +10,17 @@ class MediaLibraryScreen extends StatefulWidget {
 
 class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
   List<String> folders = ['Clouds', 'Cars', 'Urban', 'Mountains', 'Ocean'];
+
+  void _showFolderContentBottomSheet(
+    BuildContext context,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (context) => const FolderContentSheet(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +37,7 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
                 padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
                 child: 
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 12),
                       const Text(
@@ -35,6 +48,10 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
                           letterSpacing: -1,
                         ),
                       ),
+
+                      const SizedBox(height: 12),
+                      SearchField(hintText: 'Seatch folders'),
+                      const SizedBox(height: 12),
                     ],
                   ),
               ),
@@ -54,6 +71,7 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
                             print('Tapped $folder');
+                            _showFolderContentBottomSheet(context);
                           },
                         ),
                         const Divider(height: 1),
@@ -65,6 +83,34 @@ class _MediaLibraryScreenState extends State<MediaLibraryScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FolderContentSheet extends StatefulWidget {
+  const FolderContentSheet({super.key});
+
+  @override
+  State<FolderContentSheet> createState() => _FolderContentSheetState();
+}
+
+class _FolderContentSheetState extends State<FolderContentSheet> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: investigate why topBarHeight is 0
+    // final topBarHeight = MediaQuery.viewInsetsOf(context).top;
+    final sheetHeight = 0.8 * MediaQuery.of(context).size.height;
+
+    return SizedBox(
+      height: sheetHeight,
+      child: Column(
+        children: [
+          SearchField(hintText: 'Search in folder'),
+          const Text('alley_night.mp4'),
+          const Text('alley_night_2.mp4'),
+          const Text('alley_night_3.mp4'),
+        ],
       ),
     );
   }
