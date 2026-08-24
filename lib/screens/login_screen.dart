@@ -271,7 +271,7 @@ class PasswordField extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'At lease 8 characters',
+                        hintText: 'At least 8 characters',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontWeight: FontWeight.bold,
