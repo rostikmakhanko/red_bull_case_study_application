@@ -4,9 +4,9 @@ import '../utils/format_date.dart';
 
 class MediaListTile extends StatelessWidget {
   final PixabayMedia item;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
-  const MediaListTile({super.key, required this.item, this.onTap});
+  const MediaListTile({super.key, required this.item, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

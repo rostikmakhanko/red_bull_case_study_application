@@ -5,6 +5,7 @@ import '../services/pixabay_service.dart';
 
 import '../components/search_field.dart';
 import '../components/media_list_tile.dart';
+import '../components/media_detail_viewer.dart';
 
 class MediaLibraryScreen extends StatefulWidget {
   const MediaLibraryScreen({super.key});
@@ -214,7 +215,22 @@ class _FolderContentSheetState extends State<FolderContentSheet> {
                     //       ? const Icon(Icons.play_circle_outline)
                     //       : const Icon(Icons.chevron_right),
                     // );
-                    return MediaListTile(item: item);
+                    return MediaListTile(
+                      item: item,
+                      onTap: () {
+                        if (item.kind == MediaKind.image) {
+                          MediaDetailViewer.show(context, item);
+                        } else {
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   showDragHandle: true,
+                          //   isScrollControlled: true,
+                          //   builder: (context) => VideoDetailSheet(item: item),
+                          // );
+                          print('show video modal sheet');
+                        }
+                      },
+                    );
                   },
                 );
               },
