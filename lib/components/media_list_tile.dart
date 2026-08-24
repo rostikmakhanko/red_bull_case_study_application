@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/pixabay_media.dart';
+import '../utils/format_date.dart';
 
 class MediaListTile extends StatelessWidget {
   final PixabayMedia item;
@@ -42,7 +43,21 @@ class MediaListTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 3),
-                  _QualityBadge(item: item),
+                  Row(
+                    children: [
+                      if (item.publishedAt != null)
+                        Row(
+                          children: [
+                            Text(
+                              'Created ${formatDate(item.publishedAt!)}',
+                              style: TextStyle(fontSize: 12.5, color: Colors.grey.shade600),
+                            ),
+                            SizedBox(width: 4),
+                          ],
+                        ),
+                      _QualityBadge(item: item),
+                    ],
+                  ),
                 ],
               ),
             ),
