@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/pixabay_media.dart';
 import '../utils/format_date.dart';
-import '../components/quality_badge.dart';
+import 'quality_badge.dart';
 
 class MediaListTile extends StatelessWidget {
   final PixabayMedia item;

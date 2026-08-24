@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/pixabay_media.dart';
 import '../utils/format_date.dart';
-import '../components/quality_badge.dart';
+import 'quality_badge.dart';
+import 'label_value.dart';
 
 class MediaDetailViewer extends StatelessWidget {
   final PixabayMedia item;
@@ -108,16 +109,18 @@ class MediaDetailViewer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: _LabelValue(
+                        child: LabelValue(
                           label: 'RESOLUTION',
                           value: '${item.width} × ${item.height}',
+                          darkBackground: true,
                         ),
                       ),
                       if (item.publishedAt != null)
                         Expanded(
-                          child: _LabelValue(
+                          child: LabelValue(
                             label: 'CREATED',
                             value: formatDate(item.publishedAt!),
+                            darkBackground: true,
                           ),
                         ),
                       QualityBadge(item: item),
@@ -129,39 +132,6 @@ class MediaDetailViewer extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _LabelValue extends StatelessWidget {
-  final String label;
-  final String value;
-  const _LabelValue({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 10.5,
-            fontWeight: FontWeight.w600,
-            color: Colors.white70,
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-      ],
     );
   }
 }

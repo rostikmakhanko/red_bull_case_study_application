@@ -6,6 +6,7 @@ import '../services/pixabay_service.dart';
 import '../components/search_field.dart';
 import '../components/media_list_tile.dart';
 import '../components/media_detail_viewer.dart';
+import '../components/video_detail_sheet.dart';
 
 class MediaLibraryScreen extends StatefulWidget {
   const MediaLibraryScreen({super.key});
@@ -208,26 +209,13 @@ class _FolderContentSheetState extends State<FolderContentSheet> {
                       Divider(height: 1, color: Colors.grey.shade200),
                   itemBuilder: (context, index) {
                     final item = items[index];
-                    // return ListTile(
-                    //   title: Text(item.tags),
-                    //   subtitle: Text('${item.width} × ${item.height}'),
-                    //   trailing: item.kind == MediaKind.video
-                    //       ? const Icon(Icons.play_circle_outline)
-                    //       : const Icon(Icons.chevron_right),
-                    // );
                     return MediaListTile(
                       item: item,
                       onTap: () {
                         if (item.kind == MediaKind.image) {
                           MediaDetailViewer.show(context, item);
                         } else {
-                          // showModalBottomSheet(
-                          //   context: context,
-                          //   showDragHandle: true,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => VideoDetailSheet(item: item),
-                          // );
-                          print('show video modal sheet');
+                          VideoDetailSheet.show(context, item);
                         }
                       },
                     );
